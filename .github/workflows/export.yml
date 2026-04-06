@@ -1,0 +1,69 @@
+name: Export
+
+on:
+  workflow_dispatch:
+    
+jobs:
+  export_linux:
+    defaults:
+      run:
+        shell: bash
+
+    runs-on: ubuntu-22.04
+    
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout latest
+        uses: actions/checkout@v5
+        with:
+          submodules: 'recursive'
+
+      - name: Export
+        id: export
+        uses: firebelley/godot-export@v7.0.0
+        with:
+          godot_executable_download_url: https://downloads.godotengine.org/?version=4.6.1&flavor=stable&slug=mono_linux_x86_64.zip&platform=linux.64
+          godot_export_templates_download_url: https://downloads.godotengine.org/?version=4.6.1&flavor=stable&slug=mono_export_templates.tpz&platform=templates
+          cache: true
+          relative_project_path: ./
+          presets_to_export: 'Linux'
+
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Linux"
+          path: ${{ steps.export.outputs.build_directory }}
+
+  export_windows:
+    defaults:
+      run:
+        shell: bash
+
+    runs-on: windows-latest
+    
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout latest
+        uses: actions/checkout@v5
+        with:
+          submodules: 'recursive'
+
+      - name: Export
+        id: export
+        uses: firebelley/godot-export@v7.0.0
+        with:
+          godot_executable_download_url: https://downloads.godotengine.org/?version=4.6.1&flavor=stable&slug=mono_win64.zip&platform=windows.64
+          godot_export_templates_download_url: https://downloads.godotengine.org/?version=4.6.1&flavor=stable&slug=mono_export_templates.tpz&platform=templates
+          cache: true
+          relative_project_path: ./
+          presets_to_export: 'Windows'
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Windows"
+          path: ${{ steps.export.outputs.build_directory }}
