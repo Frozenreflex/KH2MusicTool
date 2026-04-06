@@ -1,0 +1,190 @@
+[gd_scene format=3 uid="uid://wj7b2l0toh0p"]
+
+[ext_resource type="Script" uid="uid://cdmp1b4yutofp" path="res://Source/Main.cs" id="1_glv2v"]
+[ext_resource type="Texture2D" uid="uid://bimkelba0xtm3" path="res://Assets/loadingheart.png" id="2_uu6xs"]
+[ext_resource type="Script" uid="uid://df45di6eex3uc" path="res://Source/MusicHandler.cs" id="3_r0du0"]
+[ext_resource type="Script" uid="uid://0v5wqe4ol3a4" path="res://Source/TrackUIHandler.cs" id="4_cm0pq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uu6xs"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r0du0"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cm0pq"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fos0i"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3dxm6"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lgr22"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_trn2v"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_03owx"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(256, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wkp8b"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(384, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_20pc6"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(0, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vvyt"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(128, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6i3y"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(256, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2ibq"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(384, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j4qnp"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(0, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fpfj3"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(128, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sc1dx"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(256, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kjvhd"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(384, 384, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5tuhn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r0du0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cm0pq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fos0i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3dxm6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lgr22")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_trn2v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03owx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wkp8b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_20pc6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vvyt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c6i3y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c2ibq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j4qnp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fpfj3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sc1dx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kjvhd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[node name="Main" type="Node" unique_id=1742200292 node_paths=PackedStringArray("Sprite")]
+script = ExtResource("1_glv2v")
+Sprite = NodePath("UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/AnimatedSprite2D")
+
+[node name="UI" type="Node" parent="." unique_id=834608462]
+
+[node name="PanelContainer" type="PanelContainer" parent="UI" unique_id=1907956294]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/PanelContainer" unique_id=269017052]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PanelContainer/MarginContainer" unique_id=1754025531]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/PanelContainer/MarginContainer/VBoxContainer" unique_id=1600756854]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="Label" type="Label" parent="UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=131880281]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Waiting for music..."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+text_overrun_behavior = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1685796672]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_uu6xs")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer" unique_id=774316652]
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_5tuhn")
+frame = 15
+frame_progress = 1.0
+centered = false
+
+[node name="MusicHandler" type="Node" parent="." unique_id=1542272508 node_paths=PackedStringArray("AudioPlayer", "TrackUiHandler")]
+script = ExtResource("3_r0du0")
+AudioPlayer = NodePath("AudioStreamPlayer")
+TrackUiHandler = NodePath("../TrackUIHandler")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MusicHandler" unique_id=1484771922]
+
+[node name="TrackUIHandler" type="Node" parent="." unique_id=889005824 node_paths=PackedStringArray("Label")]
+script = ExtResource("4_cm0pq")
+Label = NodePath("../UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Label")
