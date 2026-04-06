@@ -8,7 +8,4 @@
         <TrimmerRootAssembly Include="GodotSharp" />
         <TrimmerRootAssembly Include="$(TargetName)" />
     </ItemGroup>
-    <ItemGroup>
-      <Content Include="Source\readme.md" />
-    </ItemGroup>
 </Project>
