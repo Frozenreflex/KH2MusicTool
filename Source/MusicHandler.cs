@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +16,8 @@ public partial class MusicHandler : Node
 {
     [Export] public AudioStreamPlayer AudioPlayer;
     [Export] public TrackUIHandler TrackUiHandler;
+    [Export] public Button SetMusicLocationButton;
+    [Export] public Label DebugLabel;
 
     private static readonly Dictionary<uint, string> StandardBattleMusic = new()
     {
@@ -160,10 +163,23 @@ public partial class MusicHandler : Node
     };
     
     //yes, this is where i put the music tool on my computer
-    private const string FallbackPath = "/mnt/LocalDisk2/Program Files/Development/kh2fmffvii/Custom Music Tool";
+    private const string FallbackPath = "/mnt/LocalDisk2/ProgramFiles/Development/kh2fmffvii/Custom Music Tool";
     private string _automaticPath = OS.GetExecutablePath().GetBaseDir();
+    private bool IsEditor = OS.HasFeature("editor");
+    private bool IsAndroid = OS.GetName() == "Android";
+    private string _androidMusicPath;
 
-    public string SoundtrackPath => OS.HasFeature("editor") ? FallbackPath : _automaticPath;
+    private const string AndroidMusicRoot = "user://music/";
+
+    public string SoundtrackPath
+    {
+        get
+        {
+            if (IsEditor) return FallbackPath;
+            if (IsAndroid) return AndroidMusicRoot;
+            return _automaticPath;
+        }
+    }
 
     private bool Dead;
     private bool AquaISO;
@@ -204,7 +220,6 @@ public partial class MusicHandler : Node
     {
         _queuedSong = UseCopyrightFree ? fallbackPath : copyWrittenPath;
     }
-
     private async Task Run()
     {
         _logQueue.Enqueue("Starting thread");
@@ -698,6 +713,53 @@ public partial class MusicHandler : Node
     private float _loopEnd;
     private float _loopOffset;
 
+    public static void RemoveRecursive(string directory)
+    {
+        foreach (var dirName in DirAccess.GetDirectoriesAt(directory)) RemoveRecursive(Path.Join(directory, dirName));
+        foreach (var fileName in DirAccess.GetFilesAt(directory)) DirAccess.RemoveAbsolute(Path.Join(directory, fileName));
+        DirAccess.RemoveAbsolute(directory);
+    }
+
+    public static void PrintDirectoryRecursively(string path)
+    {
+        GD.Print(path);
+        
+        var files = DirAccess.GetFilesAt(path);
+        var dirs = DirAccess.GetDirectoriesAt(path);
+
+        foreach (var f in files) GD.Print(f);
+
+        foreach (var dir in dirs) PrintDirectoryRecursively(Path.Combine(path, dir));
+    }
+    
+    public static void ExtractZip(string inputPath, string outputDirectory)
+    {
+        DirAccess.MakeDirAbsolute(outputDirectory);
+        var zip = new ZipReader();
+        var error = zip.Open(inputPath);
+        if (error is not Error.Ok) throw new Exception();
+        
+        foreach (var entryPath in zip.GetFiles())
+        {
+            var entry = entryPath.Replace('\\', '/');
+            if (entry.EndsWith('/')) continue;
+            if (entry.StartsWith('/') || entry.Contains("../") || entry == "..") continue;
+
+            var destinationPath = Path.Combine(outputDirectory, entry);
+            var parentDirectory = Path.GetDirectoryName(destinationPath);
+            
+            if (!string.IsNullOrWhiteSpace(parentDirectory)) DirAccess.MakeDirRecursiveAbsolute(parentDirectory.Replace("user:/", "user://").Replace("user:///", "user://"));
+            
+
+            var data = zip.ReadFile(entryPath);
+            var f = FileAccess.Open(destinationPath, FileAccess.ModeFlags.Write);
+            f.StoreBuffer(data);
+            f.Flush();
+            f.Close();
+        }
+        zip.Close();
+    }
+    
     public override void _Ready()
     {
         base._Ready();
@@ -705,7 +767,38 @@ public partial class MusicHandler : Node
         _threadCancel = new CancellationTokenSource();
         _thread = Task.Run(Run, _threadCancel.Token);
         AudioPlayer.VolumeLinear = 0.00001f;
+
+        if (IsAndroid)
+        {
+            OS.RequestPermissions();
+            
+            SetMusicLocationButton.Pressed += () =>
+            {
+                DisplayServer.FileDialogShow("Input music zip", "", "", false, DisplayServer.FileDialogMode.OpenFile, ["*.zip"],
+                    Callable.From((bool status, string[] paths, int filter) =>
+                    {
+                        if (!status || paths.Length <= 0) return;
+                        
+                        var path = paths[0];
+
+                        if (DirAccess.DirExistsAbsolute(AndroidMusicRoot)) RemoveRecursive(AndroidMusicRoot);
+
+                        GD.Print($"Extracting music from {path}");
+                        
+                        ExtractZip(path, AndroidMusicRoot);
+
+                        PrintDirectoryRecursively("user://");
+                    }));
+            };
+        }
+        else
+        {
+            SetMusicLocationButton.Visible = false;
+            SetMusicLocationButton.ProcessMode = ProcessModeEnum.Disabled;
+        }
     }
+
+    private bool _debug;
 
     public override void _Process(double delta)
     {
@@ -769,6 +862,10 @@ public partial class MusicHandler : Node
                             _volumeAdd = 1f + (float.Parse(metadataSplit[3]) * 0.01f);
                         }
                     }
+                    else
+                    {
+                        GD.Print("No extra data defined");
+                    }
                     
                     TrackUiHandler.QueuedTrack = track;
                     
@@ -790,5 +887,6 @@ public partial class MusicHandler : Node
         if (!playing && AudioPlayer.Stream is not null) AudioPlayer.Play();
         
         AudioPlayer.VolumeLinear = Mathf.Remap(_volume, 0, 1, 0, _volumeAdd) * _volumeModifier;
+        DebugLabel.Text = $"{AudioPlayer.VolumeLinear}";
     }
 }

@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <EnableDynamicLoading>true</EnableDynamicLoading>
-        <PublishAOT>true</PublishAOT>
+        <PublishAOT Condition="'$(RuntimeIdentifier)' != 'android-arm64'">true</PublishAOT>
     </PropertyGroup>
     <ItemGroup>
         <TrimmerRootAssembly Include="GodotSharp" />

@@ -13,7 +13,7 @@ config_version=5
 config/name="KH2MusicTool"
 run/main_scene="uid://wj7b2l0toh0p"
 config/features=PackedStringArray("4.6", "C#", "Mobile")
-config/icon="res://icon.svg"
+config/icon="uid://4thebi0aa6tv"
 
 [dotnet]
 
@@ -31,3 +31,4 @@ theme/default_font_multichannel_signed_distance_field=true
 
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

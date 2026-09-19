@@ -150,9 +150,19 @@ theme_override_constants/margin_bottom = 8
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/PanelContainer/MarginContainer" unique_id=1754025531]
 layout_mode = 2
 
+[node name="SetMusicFolderButton" type="Button" parent="UI/PanelContainer/MarginContainer/VBoxContainer" unique_id=1602109943]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Import Music
+"
+
+[node name="DebugLabel" type="Label" parent="UI/PanelContainer/MarginContainer/VBoxContainer" unique_id=1931699399]
+layout_mode = 2
+size_flags_vertical = 3
+
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/PanelContainer/MarginContainer/VBoxContainer" unique_id=1600756854]
 layout_mode = 2
-size_flags_vertical = 10
+size_flags_vertical = 8
 
 [node name="Label" type="Label" parent="UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=131880281]
 layout_mode = 2
@@ -178,10 +188,12 @@ frame = 15
 frame_progress = 1.0
 centered = false
 
-[node name="MusicHandler" type="Node" parent="." unique_id=1542272508 node_paths=PackedStringArray("AudioPlayer", "TrackUiHandler")]
+[node name="MusicHandler" type="Node" parent="." unique_id=1542272508 node_paths=PackedStringArray("AudioPlayer", "TrackUiHandler", "SetMusicLocationButton", "DebugLabel")]
 script = ExtResource("3_r0du0")
 AudioPlayer = NodePath("AudioStreamPlayer")
 TrackUiHandler = NodePath("../TrackUIHandler")
+SetMusicLocationButton = NodePath("../UI/PanelContainer/MarginContainer/VBoxContainer/SetMusicFolderButton")
+DebugLabel = NodePath("../UI/PanelContainer/MarginContainer/VBoxContainer/DebugLabel")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MusicHandler" unique_id=1484771922]
 

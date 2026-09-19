@@ -58,10 +58,9 @@ public abstract class IPCBase
         Slot = slot;
         EmulatorName = emulatorName;
         
-        if (OperatingSystem.IsWindows())
+        if (OperatingSystem.IsWindows() || OperatingSystem.IsAndroid())
         {
             Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            //GD.Print("endpoint is ip");
             SocketEndpoint = new IPEndPoint(IPAddress.Loopback, Slot);
         }
         else
